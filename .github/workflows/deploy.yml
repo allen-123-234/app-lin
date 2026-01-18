@@ -16,14 +16,17 @@ jobs:
         
     - name: Build frontend
       run: |
-        cd frontend
-        npm install
-        # 複製 HTML 文件到根目錄
-        cp index.html ../index.html
-        cp main.js ../main.js
+        # 創建部署目錄
+        mkdir -p dist
+        
+        # 複製所有前端檔案到部署目錄
+        cp -r frontend/* dist/
+        
+        # 確保 index.html 在根目錄
+        cp frontend/index.html dist/index.html
         
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: . # 根目錄
+        publish_dir: dist
