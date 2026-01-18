@@ -2,7 +2,9 @@
 let baseURL = localStorage.getItem('baseURL') || 
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') 
     ? 'http://localhost:3000' 
-    : 'https://app-lin-git-main-linjunyuans-projects.vercel.app'; // 你的實際 Vercel URL
+    : (window.location.hostname.includes('github.io')) 
+      ? 'https://app-lin-git-main-linjunyuans-projects.vercel.app'
+      : 'https://app-lin-git-main-linjunyuans-projects.vercel.app'; // 預設為 Vercel，但會自動檢測環境
 let currentUser = null;
 let currentToken = null;
 let selectedUserId = null;
