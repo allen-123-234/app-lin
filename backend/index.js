@@ -10,7 +10,10 @@ const PORT = process.env.PORT || 3000;
 const dbDir = path.join(__dirname, 'db');
 
 // 中間件
-app.use(cors());
+app.use(cors({
+  origin: ['https://allen-123-234.github.io', 'http://localhost:3000'],
+  credentials: true
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, '../frontend')));
 
