@@ -2,44 +2,29 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-permissions:
-  contents: read
-  pages: write
-  id-token: write
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        
-    - name: Build frontend
-      run: |
-        # 創建部署目錄
-        mkdir -p dist
-        
-        # 複製所有前端檔案到部署目錄
-        cp -r frontend/* dist/
-        
-        # 確保 index.html 在根目錄
-        cp frontend/index.html dist/index.html
-        
     - name: Setup Pages
       uses: actions/configure-pages@v4
       
+    - name: Build
+      run: |
+        mkdir -p dist
+        cp -r frontend/* dist/
+        cp frontend/index.html dist/index.html
+        
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
         path: dist
         
     - name: Deploy to GitHub Pages
-      id: deployment
       uses: actions/deploy-pages@v4
